@@ -180,8 +180,8 @@
             var colorArray = Array.from(colors).map(color => color.value);
             var screenshot = document.querySelector("input[name='payment_screenshot']").value;
 
-            // Validate the form data here (if needed)
-
+            
+            var currentDate = new Date();
             // Construct the order receipt message using template literals
             var receiptMessage = `
                 Order Receipt:
@@ -196,7 +196,7 @@
                 Quantity: ${quantity}
                 Colors: ${colorArray.join(", ")}
                 Payment Screenshot: ${screenshot}
-
+                Date of Receipt: ${currentDate.toLocaleString()}  
                 Thank you for your order!
             `;
 
