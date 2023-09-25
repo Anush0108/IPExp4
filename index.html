@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>T-shirt store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h4 {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        input[type="file"] {
+            margin-top: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Customize Your T-shirt</h1>
+    <h4><i><u>For Rs 200 each</u></i></h4>
+
+    <form onsubmit="return validateForm()">
+        <p>Name :</p><input type="text" name="name">
+        <br><br>
+
+        <p>Address :</p>
+        <textarea rows="3" cols="25" name="address"></textarea>
+        <br><br>
+
+        <p>Phone No.:</p>
+        <input type="text" name="phone" id="phone">
+        <span id="phoneError" style="color: red;"></span>
+        <br><br>
+
+        <p>Email Id :</p><input type="email" name="email">
+        <br><br>
+
+        <p>Select type of T-shirt :</p>
+        <select name="tshirt_type">
+            <option value="">Select type-</option>
+            <option value="Basic half sleeve">Basic half sleeve</option>
+            <option value="Long Sleeve Crew Neck">Long Sleeve Crew Neck</option>
+            <option value="V-neck">V-neck</option>
+            <option value="Polo collar">Polo collar</option>
+            <option value="Cap sleeve">Cap sleeve</option>
+        </select>
+        <br><br>
+
+        <p>Select size of T-shirt :</p>
+        <select name="tshirt_size">
+            <option value="">Select size-</option>
+            <option value="XXS">XXS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XXL">XXL</option>
+        </select>
+        <br><br>
+
+       
+        <p>Tagline to be printed on the T-shirt:</p>
+        <input type="text" name="tagline" id="tagline">
+        <span id="taglineError" style="color: red;"></span>
+        <br><br>
+
+        <p>No. of T-shirts :</p><input type="number" name="quantity">
+        <br><br>
+
+        <p>Color of T-shirt :</p>
+        <input type="checkbox" name="colors[]" value="Red"> Red
+        <input type="checkbox" name="colors[]" value="Navy"> Navy
+        <input type="checkbox" name="colors[]" value="Blue"> Blue
+        <input type="checkbox" name="colors[]" value="Pink"> Pink
+        <input type="checkbox" name="colors[]" value="Green"> Green
+        <input type="checkbox" name="colors[]" value="Yellow"> Yellow
+        <input type="checkbox" name="colors[]" value="Brown"> Brown
+        <input type="checkbox" name="colors[]" value="Black"> Black
+        <br><br>
+
+        <p>Screenshot of payment:</p>
+        <input type="file" name="payment_screenshot">
+        <br><br><br><br>
+
+        <input type="submit" value="Submit" onclick="generateReceipt()">
+    </form>
+<script>
+        function validateForm() {
+            var tagline = document.getElementById("tagline").value;
+            var phone = document.getElementById("phone").value;
+
+            var taglineError = document.getElementById("taglineError");
+            var phoneError = document.getElementById("phoneError");
+
+            // Validate tagline (restrict to 50 characters)
+            if (tagline.length > 50) {
+                taglineError.textContent = "Tagline must be less than 50 characters.";
+                return false;
+            } else {
+                taglineError.textContent = "";
+            }
+
+            // Validate phone number (9 digits)
+            if (!/^\d{9}$/.test(phone)) {
+                phoneError.textContent = "Please enter a valid 9-digit phone number.";
+                return false;
+            } else {
+                phoneError.textContent = "";
+            }
+
+            // Add more validation as needed for other fields
+
+            return true; // Form is valid
+        }
+        function generateReceipt() {
+            var name = document.querySelector("input[name='name']").value;
+            var address = document.querySelector("textarea[name='address']").value;
+            var phone = document.querySelector("input[name='phone']").value;
+            var email = document.querySelector("input[name='email']").value;
+            var tshirtType = document.querySelector("select[name='tshirt_type']").value;
+            var tshirtSize = document.querySelector("select[name='tshirt_size']").value;
+            var tagline = document.querySelector("input[name='tagline']").value;
+            var quantity = document.querySelector("input[name='quantity']").value;
+            var colors = document.querySelectorAll("input[name='colors']:checked");
+            var colorArray = Array.from(colors).map(color => color.value);
+            var screenshot = document.querySelector("input[name='payment_screenshot']").value;
+
+            // Validate the form data here (if needed)
+
+            // Construct the order receipt message using template literals
+            var receiptMessage = `
+                Order Receipt:
+
+                Name: ${name}
+                Address: ${address}
+                Phone No.: ${phone}
+                Email Id: ${email}
+                T-shirt Type: ${tshirtType}
+                T-shirt Size: ${tshirtSize}
+                Tagline: ${tagline}
+                Quantity: ${quantity}
+                Colors: ${colorArray.join(", ")}
+                Payment Screenshot: ${screenshot}
+
+                Thank you for your order!
+            `;
+
+            // Display the receipt message in an alert
+            alert(receiptMessage);
+
+            // Reset the form
+            document.getElementById("orderForm").reset();
+
+            return false; // Prevent the form from actually submitting
+        }
+           
+    </script>
+
+
+
+
+
+
+</body>
+</html>
